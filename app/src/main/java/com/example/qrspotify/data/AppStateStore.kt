@@ -10,6 +10,8 @@ import kotlinx.coroutines.flow.update
 
 object AppStateStore {
 
+    private const val MAX_STORED_QR_LENGTH = 512
+
     private const val PREFS_NAME = "qrspotify_prefs"
     private const val KEY_LAST_RAW = "last_raw_qr"
     private const val KEY_LAST_URI = "last_resolved_uri"
@@ -36,15 +38,17 @@ object AppStateStore {
     }
 
     fun setScanResult(raw: String, resolvedUri: String) {
+        val safeRaw = raw.trim().take(MAX_STORED_QR_LENGTH)
+
         prefs.edit()
-            .putString(KEY_LAST_RAW, raw)
+            .putString(KEY_LAST_RAW, safeRaw)
             .putString(KEY_LAST_URI, resolvedUri)
             .apply()
 
         _state.update {
             it.copy(
                 scanStatus = "QR succesvol gelezen",
-                lastRawQr = raw,
+                lastRawQr = safeRaw,
                 lastResolvedSpotifyUri = resolvedUri,
                 lastError = ""
             )

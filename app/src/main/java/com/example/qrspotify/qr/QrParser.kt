@@ -2,11 +2,22 @@ package com.example.qrspotify.qr
 
 object QrParser {
 
+    private const val MAX_QR_LENGTH = 512
+
     private val spotifyTrackUriRegex = Regex("^spotify:track:[A-Za-z0-9]{22}$")
-    private val spotifyTrackUrlRegex = Regex("^https?://open\\.spotify\\.com/track/([A-Za-z0-9]{22})(\\?.*)?$")
+    private val spotifyTrackUrlRegex = Regex("^https://open\\.spotify\\.com/track/([A-Za-z0-9]{22})(\\?.*)?$")
 
     fun resolve(rawValue: String): QrResolveResult {
         val trimmed = rawValue.trim()
+
+        if (trimmed.length > MAX_QR_LENGTH) {
+            return QrResolveResult(
+                isValid = false,
+                spotifyUri = null,
+                message = "Ongeldige QR. De kaart bevat te veel data.",
+                source = QrSource.INVALID
+            )
+        }
 
         if (spotifyTrackUriRegex.matches(trimmed)) {
             return QrResolveResult(
