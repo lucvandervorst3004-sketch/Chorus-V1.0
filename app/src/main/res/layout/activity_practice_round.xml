@@ -1,0 +1,370 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/practiceRoundScrollView"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_stage_screen"
+    android:fillViewport="true"
+    android:overScrollMode="never"
+    android:scrollbars="none">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingLeft="22dp"
+        android:paddingTop="18dp"
+        android:paddingRight="22dp"
+        android:paddingBottom="160dp">
+
+        <Button
+            android:id="@+id/buttonBackToPractice"
+            android:layout_width="wrap_content"
+            android:layout_height="36dp"
+            android:background="@drawable/bg_button_primary"
+            android:backgroundTint="@null"
+            android:fontFamily="@font/manrope_bold"
+            android:minWidth="0dp"
+            android:minHeight="0dp"
+            android:paddingLeft="14dp"
+            android:paddingTop="0dp"
+            android:paddingRight="14dp"
+            android:paddingBottom="0dp"
+            android:text="← Terug"
+            android:textAllCaps="false"
+            android:textColor="#8E9AB8"
+            android:textSize="12sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="22dp"
+            android:fontFamily="@font/manrope_bold"
+            android:letterSpacing="0.18"
+            android:text="• PRACTICE ROUND"
+            android:textColor="#E0AE50"
+            android:textSize="11sp" />
+
+        <TextView
+            android:id="@+id/textPracticeLanguage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:fontFamily="@font/manrope_bold"
+            android:includeFontPadding="false"
+            android:text="Engelstalig"
+            android:textColor="#F5F3EC"
+            android:textSize="25sp" />
+
+        <TextView
+            android:id="@+id/textRoundStatus"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:fontFamily="@font/manrope_regular"
+            android:text="Nieuw nummer wordt gestart..."
+            android:textColor="#7280A2"
+            android:textSize="13sp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:baselineAligned="false"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="82dp"
+                android:layout_marginEnd="6dp"
+                android:layout_weight="1"
+                android:background="@drawable/bg_stage_stat_card"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:padding="10dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/manrope_bold"
+                    android:letterSpacing="0.16"
+                    android:text="SCORE"
+                    android:textColor="#54627F"
+                    android:textSize="9sp" />
+
+                <TextView
+                    android:id="@+id/textPracticeScore"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:fontFamily="@font/manrope_bold"
+                    android:text="6/9"
+                    android:textColor="#E1AF4A"
+                    android:textSize="22sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="82dp"
+                android:layout_marginLeft="3dp"
+                android:layout_marginRight="3dp"
+                android:layout_weight="1"
+                android:background="@drawable/bg_stage_stat_card"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:padding="10dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/manrope_bold"
+                    android:letterSpacing="0.16"
+                    android:text="STREAK"
+                    android:textColor="#54627F"
+                    android:textSize="9sp" />
+
+                <TextView
+                    android:id="@+id/textCurrentStreak"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:fontFamily="@font/manrope_bold"
+                    android:text="3🔥"
+                    android:textColor="#F5F3EC"
+                    android:textSize="22sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="82dp"
+                android:layout_marginStart="6dp"
+                android:layout_weight="1"
+                android:background="@drawable/bg_stage_stat_card"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:padding="10dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/manrope_bold"
+                    android:letterSpacing="0.16"
+                    android:text="RECORD"
+                    android:textColor="#54627F"
+                    android:textSize="9sp" />
+
+                <TextView
+                    android:id="@+id/textAllTimeHighScore"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:fontFamily="@font/manrope_bold"
+                    android:text="12"
+                    android:textColor="#D7DEEF"
+                    android:textSize="22sp" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/textPracticeRounds"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:fontFamily="@font/manrope_regular"
+            android:text="Rondes deze sessie: 0"
+            android:textColor="#52607D"
+            android:textSize="11sp" />
+
+        <TextView
+            android:id="@+id/textHighestStreak"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:fontFamily="@font/manrope_regular"
+            android:text="Beste streak: 0 | Record: 0"
+            android:textColor="#52607D"
+            android:textSize="11sp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/bg_stage_input_card"
+            android:orientation="vertical"
+            android:paddingLeft="16dp"
+            android:paddingTop="16dp"
+            android:paddingRight="16dp"
+            android:paddingBottom="16dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/manrope_bold"
+                android:letterSpacing="0.18"
+                android:text="JOUW ANTWOORD"
+                android:textColor="#E0AE50"
+                android:textSize="10sp" />
+
+            <EditText
+                android:id="@+id/inputYear"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginTop="14dp"
+                android:background="@drawable/bg_stage_text_input"
+                android:fontFamily="@font/manrope_regular"
+                android:gravity="center_vertical"
+                android:hint="1987"
+                android:inputType="number"
+                android:paddingLeft="14dp"
+                android:paddingRight="14dp"
+                android:textColor="#F5F3EC"
+                android:textColorHint="#4D5B79"
+                android:textSize="13sp" />
+
+            <EditText
+                android:id="@+id/inputTitle"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/bg_stage_text_input"
+                android:fontFamily="@font/manrope_regular"
+                android:gravity="center_vertical"
+                android:hint="Never Gonna Give You Up"
+                android:inputType="textCapWords|textNoSuggestions"
+                android:paddingLeft="14dp"
+                android:paddingRight="14dp"
+                android:textColor="#F5F3EC"
+                android:textColorHint="#4D5B79"
+                android:textSize="13sp" />
+
+            <EditText
+                android:id="@+id/inputArtist"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/bg_stage_text_input"
+                android:fontFamily="@font/manrope_regular"
+                android:gravity="center_vertical"
+                android:hint="Rick Astley"
+                android:inputType="textCapWords|textNoSuggestions"
+                android:paddingLeft="14dp"
+                android:paddingRight="14dp"
+                android:textColor="#F5F3EC"
+                android:textColorHint="#4D5B79"
+                android:textSize="13sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="14dp"
+            android:baselineAligned="false"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/buttonTogglePlayback"
+                android:layout_width="0dp"
+                android:layout_height="48dp"
+                android:layout_marginEnd="8dp"
+                android:layout_weight="1"
+                android:background="@drawable/bg_button_secondary"
+                android:backgroundTint="@null"
+                android:fontFamily="@font/manrope_bold"
+                android:text="Pauze"
+                android:textAllCaps="false"
+                android:textColor="@color/button_secondary_text"
+                android:textSize="13sp" />
+
+            <Button
+                android:id="@+id/buttonCheckAnswers"
+                android:layout_width="0dp"
+                android:layout_height="48dp"
+                android:layout_marginStart="8dp"
+                android:layout_weight="1"
+                android:background="@drawable/bg_button_primary"
+                android:backgroundTint="@null"
+                android:fontFamily="@font/manrope_bold"
+                android:text="Controleer"
+                android:textAllCaps="false"
+                android:textColor="@color/button_primary_text"
+                android:textSize="13sp" />
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/buttonNextPracticeTrack"
+            android:layout_width="match_parent"
+            android:layout_height="46dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/bg_stage_top_pill"
+            android:backgroundTint="@null"
+            android:fontFamily="@font/manrope_bold"
+            android:text="Nieuw nummer"
+            android:textAllCaps="false"
+            android:textColor="@color/button_primary_text"
+            android:textSize="12sp" />
+
+        <LinearLayout
+            android:id="@+id/layoutResultCard"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/bg_practice_result_card"
+            android:orientation="vertical"
+            android:paddingLeft="16dp"
+            android:paddingTop="16dp"
+            android:paddingRight="16dp"
+            android:paddingBottom="16dp"
+            android:visibility="gone">
+
+            <TextView
+                android:id="@+id/textResultTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/manrope_bold"
+                android:text="Resultaat"
+                android:textColor="#F5F3EC"
+                android:textSize="15sp" />
+
+            <TextView
+                android:id="@+id/textResultBody"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:fontFamily="@font/manrope_regular"
+                android:text="0 van de 3 antwoorden zijn goedgekeurd."
+                android:textColor="#7081A6"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/textResultYear"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="14dp"
+                android:fontFamily="@font/manrope_regular"
+                android:text="Jaartal"
+                android:textColor="#D5DEEF"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/textResultSong"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:fontFamily="@font/manrope_regular"
+                android:text="Nummer"
+                android:textColor="#D5DEEF"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/textResultArtist"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:fontFamily="@font/manrope_regular"
+                android:text="Artiest"
+                android:textColor="#D5DEEF"
+                android:textSize="12sp" />
+        </LinearLayout>
+
+    </LinearLayout>
+</ScrollView>

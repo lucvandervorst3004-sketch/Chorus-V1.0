@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Chorus</string>
+
+    <string name="main_settings">Instellingen</string>
+    <string name="common_connect_first">Koppel eerst Spotify.</string>
+    <string name="common_camera_needed">Camera nodig om kaarten te scannen.</string>
+
+    <string name="common_minus">−</string>
+    <string name="common_plus">+</string>
+
+    <string name="home_logo_content_description">Chorus logo</string>
+    <string name="home_logo_cho">Cho</string>
+    <string name="home_logo_rus">rus</string>
+    <string name="home_brand_label">MUZIEKSPEL</string>
+    <string name="home_subtitle">Snel starten, weinig scrollen, grote knoppen.</string>
+    <string name="home_status_title">STATUS</string>
+    <string name="home_connection_ready">Spotify is klaar</string>
+    <string name="home_connection_not_ready">Spotify nog niet gekoppeld</string>
+    <string name="home_connected_badge">• Verbonden</string>
+    <string name="home_disconnected_badge">• Niet verbonden</string>
+    <string name="home_connect_spotify">Spotify koppelen</string>
+    <string name="home_spotify_connected">Spotify gekoppeld</string>
+    <string name="home_connecting">Bezig...</string>
+    <string name="home_choose_mode">KIES EEN MODUS</string>
+    <string name="home_mode_play_label">Play</string>
+    <string name="home_classic_title">Classic</string>
+    <string name="home_classic_subtitle">Scan kaart, luister en raad</string>
+    <string name="home_practice_title">Practice</string>
+    <string name="home_practice_subtitle">Oefen solo met score</string>
+    <string name="home_duel_title">Duel</string>
+    <string name="home_duel_subtitle">1 vs 1 met buzzer</string>
+    <string name="home_rene_title">Le Bak</string>
+    <string name="home_rene_subtitle">Trek de bak?</string>
+
+    <string name="duel_connect_first">Koppel eerst Spotify.</string>
+    <string name="duel_back">Terug</string>
+    <string name="duel_exit">Verlaat</string>
+    <string name="duel_retry">Opnieuw proberen</string>
+
+    <string name="duel_setup_badge">NEON ARENA</string>
+    <string name="duel_setup_title">Duel Mode</string>
+    <string name="duel_setup_subtitle">Twee spelers, één telefoon, twee buzzers.</string>
+    <string name="duel_setup_instructions">Duel gebruikt dezelfde categorieën en muziekpool als Practice. De speler die als eerste drukt zegt het antwoord hardop. Daarna keur je samen of het goed of fout was.</string>
+    <string name="duel_player_one_hint">Naam speler 1</string>
+    <string name="duel_player_two_hint">Naam speler 2</string>
+    <string name="duel_default_player_one">Speler 1</string>
+    <string name="duel_default_player_two">Speler 2</string>
+    <string name="duel_category_title">Kies categorie</string>
+    <string name="duel_category_english">Wereldwijd</string>
+    <string name="duel_category_dutch">Nederlandstalig</string>
+    <string name="duel_button_start">Start duel</string>
+
+    <string name="duel_first_to_title">First to…</string>
+    <string name="duel_first_to_value">First to %1$d wint</string>
+    <string name="duel_first_to_helper">Kies zelf tot hoeveel punten jullie spelen.</string>
+
+    <string name="duel_round_counter">Ronde %1$d • first to %2$d</string>
+    <string name="duel_buzz">BUZZ</string>
+    <string name="duel_button_reveal_answer">Door naar antwoord →</string>
+    <string name="duel_next_round">Volgende ronde →</string>
+
+    <string name="duel_status_idle">Duel staat klaar</string>
+    <string name="duel_status_loading">Nieuw fragment wordt geladen...</string>
+    <string name="duel_status_listening">Druk zo snel mogelijk op je eigen buzzer</string>
+    <string name="duel_status_buzzed">%1$s drukte als eerste</string>
+    <string name="duel_status_revealing">Controleer samen het antwoord</string>
+    <string name="duel_status_round_over">Ronde afgerond</string>
+    <string name="duel_status_game_over">%1$s wint de arena</string>
+
+    <string name="duel_status_helper_default">Zodra het fragment start mogen beide spelers drukken.</string>
+    <string name="duel_status_helper_loading">Spotify maakt het volgende duelnummer klaar.</string>
+    <string name="duel_status_helper_listening">De speler die als eerste op zijn knop drukt mag het antwoord hardop zeggen.</string>
+    <string name="duel_status_helper_buzzed">Roep nu in het echt je antwoord. Klik daarna op door.</string>
+    <string name="duel_status_helper_revealing_manual">Gebruik de groene knop voor goed en de rode knop voor fout.</string>
+    <string name="duel_status_helper_next_round">De stand is bijgewerkt. Start daarna de volgende ronde.</string>
+    <string name="duel_status_helper_game_over">De gekozen targetscore is gehaald.</string>
+
+    <string name="duel_buzzed_title">%1$s heeft gedrukt</string>
+    <string name="duel_buzzed_body">%1$s moet nu het antwoord hardop zeggen. Daarna klik je op door naar antwoord.</string>
+
+    <string name="duel_reveal_title">Controleer antwoord</string>
+    <string name="duel_reveal_answer_format">Jaartal: %1$s
+Nummer: %2$s
+Artiest: %3$s</string>
+    <string name="duel_result_pending">Kies nu samen of het antwoord goed of fout was.</string>
+    <string name="duel_result_correct">%1$s krijgt 1 punt.</string>
+    <string name="duel_result_wrong">Geen punt deze ronde.</string>
+
+    <string name="duel_mark_wrong_content_description">Markeer als fout</string>
+    <string name="duel_mark_correct_content_description">Markeer als goed</string>
+
+    <string name="duel_leave_title">Spel verlaten?</string>
+    <string name="duel_leave_message">Weet je zeker dat je dit duel wilt verlaten?</string>
+    <string name="duel_leave_confirm">Verlaten</string>
+    <string name="duel_leave_cancel">Blijven</string>
+
+    <string name="duel_load_error_title">Spotify kon deze ronde niet starten</string>
+    <string name="duel_load_error_message">%1$s</string>
+
+    <string name="duel_winner_title">%1$s wint!</string>
+    <string name="duel_winner_subtitle">Neon Arena is beslist.</string>
+    <string name="duel_score_overview_title">Eindstand</string>
+    <string name="duel_score_line">%1$s • %2$d</string>
+    <string name="duel_new_game">Nieuw spel</string>
+    <string name="duel_back_home">Terug naar home</string>
+
+    <string name="practice_category_back">← Terug</string>
+    <string name="practice_category_badge">• PRACTICE ROUND</string>
+    <string name="practice_category_title">Kies je taal</string>
+    <string name="practice_category_subtitle">Raad jaar, nummer en artiest op gehoor.</string>
+    <string name="practice_highscore_dutch_placeholder">NL 0</string>
+    <string name="practice_highscore_english_placeholder">Wereld 0</string>
+    <string name="practice_highscore_dutch">NL %1$d</string>
+    <string name="practice_highscore_english">Wereld %1$d</string>
+    <string name="practice_dutch_eyebrow">NEDERLANDS</string>
+    <string name="practice_dutch_name">NL</string>
+    <string name="practice_dutch_subtitle">Nederlandstalige hits</string>
+    <string name="practice_world_eyebrow">WERELDWIJD</string>
+    <string name="practice_world_name">EN</string>
+    <string name="practice_world_subtitle">Internationale hits</string>
+    <string name="practice_session_badge">SESSIE</string>
+    <string name="practice_session_score_empty">Sessiescore: 0 van 0</string>
+    <string name="practice_session_rounds_empty">Rondes deze sessie: 0</string>
+    <string name="practice_session_score_format">Sessiescore: %1$d van %2$d</string>
+    <string name="practice_session_rounds_format">Rondes deze sessie: %1$d</string>
+    <string name="practice_category_note">Spelfouten in titel en artiest mogen een beetje. Het jaartal moet wel exact goed zijn.</string>
+
+    <string name="rene_back">← Terug</string>
+    <string name="rene_badge">• PARTY GAME</string>
+    <string name="rene_stage_label">roulette stage</string>
+    <string name="rene_title_line1">René</string>
+    <string name="rene_title_line2">Le Bak</string>
+    <string name="rene_status_default">Trek jij de bak?</string>
+    <string name="rene_turns_panel_label">rondes instellen</string>
+    <string name="rene_turns_label_placeholder">beurten in de ronde</string>
+    <string name="rene_start_round">Start ronde →</string>
+    <string name="rene_result_safe_main">VEILIG</string>
+    <string name="rene_result_safe_sub">Niks aan de hand. Deze beurt telt meteen door.</string>
+    <string name="rene_result_single_main">RAAK</string>
+    <string name="rene_result_single_sub">Deze speler is aan de beurt.</string>
+    <string name="rene_result_party_main">PARTY MODUS</string>
+    <string name="rene_result_party_sub">Iedereen doet mee.</string>
+    <string name="rene_how_it_works_title">Zo werkt het</string>
+    <string name="rene_how_it_works_body">Bij veilig gaat de app door. Bij een hit stopt de ronde tot jullie verder gaan.</string>
+    <string name="rene_popup_single_title">JE BENT DE LUL</string>
+    <string name="rene_popup_single_symbol">!</string>
+    <string name="rene_popup_single_subtitle">Doe de challenge!</string>
+    <string name="rene_popup_party_title">NU IS IEDEREEN DE LUL</string>
+    <string name="rene_popup_party_symbol">ALL</string>
+    <string name="rene_popup_party_subtitle">Jij bent vast een favorietje</string>
+    <string name="rene_popup_continue">Verder gaan</string>
+    <string name="rene_popup_party_continue">Iedereen klaar? Verder</string>
+    <string name="rene_finish_title">Ronde voltooid</string>
+    <string name="rene_finish_symbol">OK</string>
+    <string name="rene_finish_body">Geef de telefoon door aan de volgende persoon.</string>
+    <string name="rene_finish_close">Volgende speler →</string>
+    <string name="rene_loading_turn">Nieuwe beurt wordt gestart...</string>
+    <string name="rene_safe_status">Veilige beurt. De ronde gaat door...</string>
+    <string name="rene_hit_wait">Hit. Wacht tot jullie klaar zijn en druk daarna op verder.</string>
+    <string name="rene_party_wait">Party hit. Wacht tot jullie klaar zijn en druk daarna op verder.</string>
+    <string name="rene_round_ready">Jouw ronde is klaar.</string>
+    <string name="rene_reset_status">Kies hoeveel beurten je wilt doen en start de ronde.</string>
+    <string name="rene_turn_count_one">Nog 1 beurt in de ronde</string>
+    <string name="rene_turn_count_many">Nog %1$d beurten in de ronde</string>
+    <string name="rene_button_busy">Bezig...</string>
+    <string name="rene_button_done">Ronde klaar</string>
+
+    <string name="onboarding_skip">Overslaan</string>
+    <string name="onboarding_badge">• WELKOM BIJ CHORUS</string>
+    <string name="onboarding_title">Nieuw hier? Zo werkt Chorus.</string>
+    <string name="onboarding_subtitle">Chorus is een muziekgame waarbij jij op gehoor het nummer, de artiest en soms het jaartal raadt. De app houdt de trackinformatie verborgen zodat het echt een spel blijft.</string>
+    <string name="onboarding_panel_badge">EERST EVEN DIT</string>
+    <string name="onboarding_panel_title">Koppel Spotify en kies daarna je favoriete modus.</string>
+    <string name="onboarding_panel_body">Classic laat je een kaart scannen en direct raden. Practice is perfect om solo te oefenen en je score op te bouwen. Duel en René Le Bak zijn er voor party-energie op één telefoon.</string>
+    <string name="onboarding_step_one_number">1</string>
+    <string name="onboarding_step_one_title">Koppel Spotify</string>
+    <string name="onboarding_step_one_body">Spotify speelt de muziek op de achtergrond af, terwijl Chorus de game-interface blijft.</string>
+    <string name="onboarding_step_two_number">2</string>
+    <string name="onboarding_step_two_title">Kies je mode</string>
+    <string name="onboarding_step_two_body">Ga voor Classic, Practice, Duel of René Le Bak en start meteen vanaf het home-scherm.</string>
+    <string name="onboarding_note_title">Belangrijk</string>
+    <string name="onboarding_note_body_one">In Classic Mode zie je bewust geen titel, artiest of album in beeld.</string>
+    <string name="onboarding_note_body_two">De camera wordt gebruikt om QR-kaarten te scannen.</string>
+    <string name="onboarding_note_body_three">Je gebruikt Chorus op één toestel. Spotify draait op de achtergrond, maar jouw app blijft de hoofdinterface.</string>
+    <string name="onboarding_primary_action">Aan de slag</string>
+</resources>

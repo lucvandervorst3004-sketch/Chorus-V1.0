@@ -1,0 +1,550 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/rootHome"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_home_screen">
+
+    <ScrollView
+        android:id="@+id/contentHome"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clipToPadding="false"
+        android:fillViewport="true"
+        android:overScrollMode="never"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <FrameLayout
+                        android:layout_width="36dp"
+                        android:layout_height="36dp"
+                        android:background="@drawable/bg_home_logo_shell"
+                        android:padding="8dp">
+
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:contentDescription="@string/home_logo_content_description"
+                            android:src="@drawable/ic_chorus_logo" />
+                    </FrameLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:orientation="vertical">
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/bowlby_one_sc_regular"
+                                android:text="@string/home_logo_cho"
+                                android:textColor="@color/text_primary"
+                                android:textSize="26sp" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/bowlby_one_sc_regular"
+                                android:text="@string/home_logo_rus"
+                                android:textColor="@color/accent_amber"
+                                android:textSize="26sp" />
+                        </LinearLayout>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="2dp"
+                            android:fontFamily="@font/manrope_bold"
+                            android:letterSpacing="0.16"
+                            android:text="@string/home_brand_label"
+                            android:textColor="@color/home_text_section"
+                            android:textSize="10sp" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <Button
+                    android:id="@+id/buttonOpenSettings"
+                    android:layout_width="wrap_content"
+                    android:layout_height="54dp"
+                    android:background="@drawable/bg_home_settings_button"
+                    android:drawableStart="@drawable/ic_home_settings"
+                    android:drawablePadding="10dp"
+                    android:fontFamily="@font/manrope_bold"
+                    android:gravity="center"
+                    android:minWidth="0dp"
+                    android:minHeight="0dp"
+                    android:paddingLeft="18dp"
+                    android:paddingTop="0dp"
+                    android:paddingRight="18dp"
+                    android:paddingBottom="0dp"
+                    android:text="@string/main_settings"
+                    android:textAllCaps="false"
+                    android:textColor="@color/home_text_primary"
+                    android:textSize="13sp"
+                    app:backgroundTint="@null" />
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:fontFamily="@font/manrope_regular"
+                android:lineSpacingExtra="1dp"
+                android:text="@string/home_subtitle"
+                android:textColor="@color/home_text_muted"
+                android:textSize="17sp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="28dp"
+                android:background="@drawable/bg_home_status_card"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingLeft="20dp"
+                android:paddingTop="20dp"
+                android:paddingRight="20dp"
+                android:paddingBottom="20dp">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/manrope_bold"
+                        android:letterSpacing="0.22"
+                        android:text="@string/home_status_title"
+                        android:textAllCaps="true"
+                        android:textColor="@color/home_gold"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:id="@+id/textConnectionStatus"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:fontFamily="@font/manrope_bold"
+                        android:text="@string/home_connection_ready"
+                        android:textColor="@color/home_text_primary"
+                        android:textSize="23sp" />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/textStatusBadge"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:background="@drawable/bg_home_connected_badge"
+                    android:fontFamily="@font/manrope_bold"
+                    android:gravity="center"
+                    android:minHeight="38dp"
+                    android:paddingLeft="16dp"
+                    android:paddingTop="8dp"
+                    android:paddingRight="16dp"
+                    android:paddingBottom="8dp"
+                    android:text="@string/home_connected_badge"
+                    android:textColor="@color/home_status_connected_text"
+                    android:textSize="13sp" />
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/buttonConnectSpotify"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:layout_marginTop="18dp"
+                android:background="@drawable/bg_home_primary_button"
+                android:fontFamily="@font/manrope_bold"
+                android:gravity="center"
+                android:minHeight="0dp"
+                android:text="@string/home_connect_spotify"
+                android:textAllCaps="false"
+                android:textColor="@color/home_text_primary"
+                android:textSize="15sp"
+                app:backgroundTint="@null" />
+
+            <TextView
+                android:id="@+id/textError"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:fontFamily="@font/manrope_regular"
+                android:gravity="center_horizontal"
+                android:textColor="@color/home_error"
+                android:textSize="13sp"
+                android:visibility="gone" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="28dp"
+                android:fontFamily="@font/manrope_bold"
+                android:letterSpacing="0.22"
+                android:text="@string/home_choose_mode"
+                android:textAllCaps="true"
+                android:textColor="@color/home_text_section"
+                android:textSize="12sp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:baselineAligned="false"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:id="@+id/buttonContinueClassic"
+                    android:layout_width="0dp"
+                    android:layout_height="156dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/bg_home_mode_card_classic"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:foreground="?attr/selectableItemBackgroundBorderless"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <FrameLayout
+                            android:layout_width="56dp"
+                            android:layout_height="56dp"
+                            android:background="@drawable/bg_home_icon_shell"
+                            android:padding="9dp">
+
+                            <ImageView
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:contentDescription="@string/home_classic_title"
+                                android:src="@drawable/ic_mode_classic"
+                                android:tint="@color/home_mode_classic_title" />
+                        </FrameLayout>
+
+                        <Space
+                            android:layout_width="0dp"
+                            android:layout_height="1dp"
+                            android:layout_weight="1" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="32dp"
+                            android:background="@drawable/bg_home_play_pill"
+                            android:fontFamily="@font/manrope_bold"
+                            android:gravity="center"
+                            android:letterSpacing="0.14"
+                            android:minWidth="54dp"
+                            android:paddingStart="12dp"
+                            android:paddingEnd="12dp"
+                            android:text="@string/home_mode_play_label"
+                            android:textAllCaps="true"
+                            android:textColor="@color/home_mode_classic_title"
+                            android:textSize="10sp" />
+                    </LinearLayout>
+
+                    <Space
+                        android:layout_width="1dp"
+                        android:layout_height="0dp"
+                        android:layout_weight="1" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/manrope_bold"
+                        android:text="@string/home_classic_title"
+                        android:textColor="@color/home_mode_classic_title"
+                        android:textSize="20sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:fontFamily="@font/manrope_regular"
+                        android:text="@string/home_classic_subtitle"
+                        android:textColor="@color/home_mode_subtitle"
+                        android:textSize="13sp" />
+
+                </LinearLayout>
+
+                <Space
+                    android:layout_width="14dp"
+                    android:layout_height="1dp" />
+
+                <LinearLayout
+                    android:id="@+id/buttonOpenPractice"
+                    android:layout_width="0dp"
+                    android:layout_height="156dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/bg_home_mode_card_practice"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:foreground="?attr/selectableItemBackgroundBorderless"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <FrameLayout
+                            android:layout_width="56dp"
+                            android:layout_height="56dp"
+                            android:background="@drawable/bg_home_icon_shell"
+                            android:padding="9dp">
+
+                            <ImageView
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:contentDescription="@string/home_practice_title"
+                                android:src="@drawable/ic_mode_practice"
+                                android:tint="@color/home_mode_practice_title" />
+                        </FrameLayout>
+
+                        <Space
+                            android:layout_width="0dp"
+                            android:layout_height="1dp"
+                            android:layout_weight="1" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="32dp"
+                            android:background="@drawable/bg_home_play_pill"
+                            android:fontFamily="@font/manrope_bold"
+                            android:gravity="center"
+                            android:letterSpacing="0.14"
+                            android:minWidth="54dp"
+                            android:paddingStart="12dp"
+                            android:paddingEnd="12dp"
+                            android:text="@string/home_mode_play_label"
+                            android:textAllCaps="true"
+                            android:textColor="@color/home_mode_practice_title"
+                            android:textSize="10sp" />
+                    </LinearLayout>
+
+                    <Space
+                        android:layout_width="1dp"
+                        android:layout_height="0dp"
+                        android:layout_weight="1" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/manrope_bold"
+                        android:text="@string/home_practice_title"
+                        android:textColor="@color/home_mode_practice_title"
+                        android:textSize="20sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:fontFamily="@font/manrope_regular"
+                        android:text="@string/home_practice_subtitle"
+                        android:textColor="@color/home_mode_subtitle"
+                        android:textSize="13sp" />
+
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="14dp"
+                android:baselineAligned="false"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:id="@+id/buttonOpenDuel"
+                    android:layout_width="0dp"
+                    android:layout_height="156dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/bg_home_mode_card_duel"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:foreground="?attr/selectableItemBackgroundBorderless"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <FrameLayout
+                            android:layout_width="56dp"
+                            android:layout_height="56dp"
+                            android:background="@drawable/bg_home_icon_shell"
+                            android:padding="9dp">
+
+                            <ImageView
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:contentDescription="@string/home_duel_title"
+                                android:src="@drawable/ic_mode_duel"
+                                android:tint="@color/home_mode_duel_title" />
+                        </FrameLayout>
+
+                        <Space
+                            android:layout_width="0dp"
+                            android:layout_height="1dp"
+                            android:layout_weight="1" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="32dp"
+                            android:background="@drawable/bg_home_play_pill"
+                            android:fontFamily="@font/manrope_bold"
+                            android:gravity="center"
+                            android:letterSpacing="0.14"
+                            android:minWidth="54dp"
+                            android:paddingStart="12dp"
+                            android:paddingEnd="12dp"
+                            android:text="@string/home_mode_play_label"
+                            android:textAllCaps="true"
+                            android:textColor="@color/home_mode_duel_title"
+                            android:textSize="10sp" />
+                    </LinearLayout>
+
+                    <Space
+                        android:layout_width="1dp"
+                        android:layout_height="0dp"
+                        android:layout_weight="1" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/manrope_bold"
+                        android:text="@string/home_duel_title"
+                        android:textColor="@color/home_mode_duel_title"
+                        android:textSize="20sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:fontFamily="@font/manrope_regular"
+                        android:text="@string/home_duel_subtitle"
+                        android:textColor="@color/home_mode_subtitle"
+                        android:textSize="13sp" />
+
+                </LinearLayout>
+
+                <Space
+                    android:layout_width="14dp"
+                    android:layout_height="1dp" />
+
+                <LinearLayout
+                    android:id="@+id/buttonOpenReneLeBak"
+                    android:layout_width="0dp"
+                    android:layout_height="156dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/bg_home_mode_card_rene"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:foreground="?attr/selectableItemBackgroundBorderless"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <FrameLayout
+                            android:layout_width="56dp"
+                            android:layout_height="56dp"
+                            android:background="@drawable/bg_home_icon_shell"
+                            android:padding="9dp">
+
+                            <ImageView
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:contentDescription="@string/home_rene_title"
+                                android:src="@drawable/ic_mode_rene"
+                                android:tint="@color/home_mode_rene_title" />
+                        </FrameLayout>
+
+                        <Space
+                            android:layout_width="0dp"
+                            android:layout_height="1dp"
+                            android:layout_weight="1" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="32dp"
+                            android:background="@drawable/bg_home_play_pill"
+                            android:fontFamily="@font/manrope_bold"
+                            android:gravity="center"
+                            android:letterSpacing="0.14"
+                            android:minWidth="54dp"
+                            android:paddingStart="12dp"
+                            android:paddingEnd="12dp"
+                            android:text="@string/home_mode_play_label"
+                            android:textAllCaps="true"
+                            android:textColor="@color/home_mode_rene_title"
+                            android:textSize="10sp" />
+                    </LinearLayout>
+
+                    <Space
+                        android:layout_width="1dp"
+                        android:layout_height="0dp"
+                        android:layout_weight="1" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/manrope_bold"
+                        android:text="@string/home_rene_title"
+                        android:textColor="@color/home_mode_rene_title"
+                        android:textSize="20sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:fontFamily="@font/manrope_regular"
+                        android:text="@string/home_rene_subtitle"
+                        android:textColor="@color/home_mode_subtitle"
+                        android:textSize="13sp" />
+
+                </LinearLayout>
+            </LinearLayout>
+
+        </LinearLayout>
+    </ScrollView>
+
+</FrameLayout>

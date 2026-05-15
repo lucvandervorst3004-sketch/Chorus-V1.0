@@ -1,0 +1,611 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/rootRene"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_rene_screen">
+
+    <ScrollView
+        android:id="@+id/contentRene"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clipToPadding="false"
+        android:fillViewport="true"
+        android:overScrollMode="never"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingStart="18dp"
+            android:paddingEnd="18dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/buttonBackReneLeBak"
+                    android:layout_width="wrap_content"
+                    android:layout_height="42dp"
+                    android:background="@drawable/bg_button_secondary"
+                    android:backgroundTint="@null"
+                    android:fontFamily="@font/manrope_bold"
+                    android:minWidth="0dp"
+                    android:minHeight="0dp"
+                    android:paddingStart="14dp"
+                    android:paddingEnd="14dp"
+                    android:text="@string/rene_back"
+                    android:textAllCaps="false"
+                    android:textColor="@color/button_secondary_text"
+                    android:textSize="12sp"
+                    app:backgroundTint="@null" />
+
+                <Space
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:layout_weight="1" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="34dp"
+                    android:background="@drawable/bg_rene_top_badge"
+                    android:fontFamily="@font/manrope_bold"
+                    android:gravity="center"
+                    android:letterSpacing="0.14"
+                    android:paddingStart="14dp"
+                    android:paddingEnd="14dp"
+                    android:text="@string/rene_badge"
+                    android:textAllCaps="true"
+                    android:textColor="@color/neon_green"
+                    android:textSize="10sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/bg_rene_stage_refined"
+                android:orientation="vertical"
+                android:paddingStart="18dp"
+                android:paddingTop="18dp"
+                android:paddingEnd="18dp"
+                android:paddingBottom="18dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:baselineAligned="false"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="24dp"
+                            android:background="@drawable/bg_rene_micro_badge"
+                            android:fontFamily="@font/manrope_bold"
+                            android:gravity="center"
+                            android:letterSpacing="0.14"
+                            android:paddingStart="10dp"
+                            android:paddingEnd="10dp"
+                            android:text="@string/rene_stage_label"
+                            android:textAllCaps="true"
+                            android:textColor="@color/home_text_section"
+                            android:textSize="9sp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:fontFamily="@font/manrope_bold"
+                            android:includeFontPadding="false"
+                            android:text="@string/rene_title_line1"
+                            android:textColor="@color/home_text_primary"
+                            android:textSize="40sp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/manrope_bold"
+                            android:includeFontPadding="false"
+                            android:text="@string/rene_title_line2"
+                            android:textColor="@color/neon_green"
+                            android:textSize="40sp" />
+                    </LinearLayout>
+
+                    <FrameLayout
+                        android:id="@+id/viewReneTurntable"
+                        android:layout_width="122dp"
+                        android:layout_height="122dp"
+                        android:layout_marginStart="14dp"
+                        android:background="@drawable/bg_rene_turntable_outer"
+                        android:padding="14dp">
+
+                        <FrameLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="@drawable/bg_rene_record"
+                            android:padding="33dp">
+
+                            <View
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:background="@drawable/bg_rene_record_label" />
+                        </FrameLayout>
+                    </FrameLayout>
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/textReneStatus"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:background="@drawable/bg_rene_status_panel"
+                    android:fontFamily="@font/manrope_regular"
+                    android:lineSpacingExtra="2dp"
+                    android:paddingStart="14dp"
+                    android:paddingTop="12dp"
+                    android:paddingEnd="14dp"
+                    android:paddingBottom="12dp"
+                    android:text="@string/rene_status_default"
+                    android:textColor="@color/home_text_muted"
+                    android:textSize="14sp" />
+
+                <LinearLayout
+                    android:id="@+id/layoutReneEq"
+                    android:layout_width="match_parent"
+                    android:layout_height="76dp"
+                    android:layout_marginTop="14dp"
+                    android:background="@drawable/bg_rene_eq_rail"
+                    android:baselineAligned="false"
+                    android:gravity="bottom"
+                    android:orientation="horizontal"
+                    android:paddingStart="10dp"
+                    android:paddingTop="10dp"
+                    android:paddingEnd="10dp"
+                    android:paddingBottom="10dp">
+
+                    <View
+                        android:id="@+id/barReneEq1"
+                        android:layout_width="0dp"
+                        android:layout_height="28dp"
+                        android:layout_marginEnd="6dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/bg_rene_eq_bar" />
+
+                    <View
+                        android:id="@+id/barReneEq2"
+                        android:layout_width="0dp"
+                        android:layout_height="48dp"
+                        android:layout_marginEnd="6dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/bg_rene_eq_bar" />
+
+                    <View
+                        android:id="@+id/barReneEq3"
+                        android:layout_width="0dp"
+                        android:layout_height="36dp"
+                        android:layout_marginEnd="6dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/bg_rene_eq_bar" />
+
+                    <View
+                        android:id="@+id/barReneEq4"
+                        android:layout_width="0dp"
+                        android:layout_height="56dp"
+                        android:layout_marginEnd="6dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/bg_rene_eq_bar" />
+
+                    <View
+                        android:id="@+id/barReneEq5"
+                        android:layout_width="0dp"
+                        android:layout_height="34dp"
+                        android:layout_marginEnd="6dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/bg_rene_eq_bar" />
+
+                    <View
+                        android:id="@+id/barReneEq6"
+                        android:layout_width="0dp"
+                        android:layout_height="44dp"
+                        android:layout_marginEnd="6dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/bg_rene_eq_bar" />
+
+                    <View
+                        android:id="@+id/barReneEq7"
+                        android:layout_width="0dp"
+                        android:layout_height="58dp"
+                        android:layout_marginEnd="6dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/bg_rene_eq_bar" />
+
+                    <View
+                        android:id="@+id/barReneEq8"
+                        android:layout_width="0dp"
+                        android:layout_height="38dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/bg_rene_eq_bar" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="14dp"
+                android:background="@drawable/bg_rene_control_panel"
+                android:orientation="vertical"
+                android:paddingStart="16dp"
+                android:paddingTop="16dp"
+                android:paddingEnd="16dp"
+                android:paddingBottom="16dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/manrope_bold"
+                    android:letterSpacing="0.14"
+                    android:text="@string/rene_turns_panel_label"
+                    android:textAllCaps="true"
+                    android:textColor="@color/gold_bright"
+                    android:textSize="10sp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:baselineAligned="false"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <Button
+                        android:id="@+id/buttonMinusTurns"
+                        android:layout_width="58dp"
+                        android:layout_height="58dp"
+                        android:background="@drawable/bg_rene_counter_button_refined"
+                        android:backgroundTint="@null"
+                        android:fontFamily="@font/manrope_bold"
+                        android:minWidth="0dp"
+                        android:minHeight="0dp"
+                        android:text="@string/common_minus"
+                        android:textAllCaps="false"
+                        android:textColor="@color/home_text_primary"
+                        android:textSize="25sp"
+                        app:backgroundTint="@null" />
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="12dp"
+                        android:layout_marginEnd="12dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/bg_rene_counter_shell"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        android:paddingTop="10dp"
+                        android:paddingBottom="10dp">
+
+                        <TextView
+                            android:id="@+id/textTurnCount"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/bowlby_one_sc_regular"
+                            android:includeFontPadding="false"
+                            android:text="3"
+                            android:textColor="@color/gold_bright"
+                            android:textSize="52sp" />
+
+                        <TextView
+                            android:id="@+id/textTurnsLabel"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="4dp"
+                            android:fontFamily="@font/manrope_bold"
+                            android:gravity="center"
+                            android:paddingStart="8dp"
+                            android:paddingEnd="8dp"
+                            android:text="@string/rene_turns_label_placeholder"
+                            android:textColor="@color/home_text_muted"
+                            android:textSize="12sp" />
+                    </LinearLayout>
+
+                    <Button
+                        android:id="@+id/buttonPlusTurns"
+                        android:layout_width="58dp"
+                        android:layout_height="58dp"
+                        android:background="@drawable/bg_rene_counter_button_refined"
+                        android:backgroundTint="@null"
+                        android:fontFamily="@font/manrope_bold"
+                        android:minWidth="0dp"
+                        android:minHeight="0dp"
+                        android:text="@string/common_plus"
+                        android:textAllCaps="false"
+                        android:textColor="@color/home_text_primary"
+                        android:textSize="25sp"
+                        app:backgroundTint="@null" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/buttonStartReneLeBak"
+                android:layout_width="match_parent"
+                android:layout_height="62dp"
+                android:layout_marginTop="14dp"
+                android:background="@drawable/bg_party_primary_button"
+                android:backgroundTint="@null"
+                android:fontFamily="@font/manrope_bold"
+                android:text="@string/rene_start_round"
+                android:textAllCaps="false"
+                android:textColor="@color/text_dark"
+                android:textSize="18sp"
+                app:backgroundTint="@null" />
+
+            <LinearLayout
+                android:id="@+id/layoutReneResult"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="14dp"
+                android:background="@drawable/bg_rene_result_safe_refined"
+                android:orientation="vertical"
+                android:paddingStart="18dp"
+                android:paddingTop="16dp"
+                android:paddingEnd="18dp"
+                android:paddingBottom="16dp"
+                android:visibility="gone">
+
+                <TextView
+                    android:id="@+id/textResultMain"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/bowlby_one_sc_regular"
+                    android:includeFontPadding="false"
+                    android:text="@string/rene_result_safe_main"
+                    android:textColor="@color/neon_green"
+                    android:textSize="28sp" />
+
+                <TextView
+                    android:id="@+id/textResultSub"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:fontFamily="@font/manrope_regular"
+                    android:lineSpacingExtra="2dp"
+                    android:text="@string/rene_result_safe_sub"
+                    android:textColor="@color/home_text_muted"
+                    android:textSize="15sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="14dp"
+                android:baselineAligned="false"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="58dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/bg_rene_stat_green"
+                    android:fontFamily="@font/manrope_bold"
+                    android:gravity="center"
+                    android:text="@string/rene_result_safe_main"
+                    android:textColor="@color/neon_green"
+                    android:textSize="11sp" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="58dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/bg_rene_stat_red"
+                    android:fontFamily="@font/manrope_bold"
+                    android:gravity="center"
+                    android:text="@string/rene_result_single_main"
+                    android:textColor="@color/neon_red"
+                    android:textSize="11sp" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="58dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/bg_rene_stat_gold"
+                    android:fontFamily="@font/manrope_bold"
+                    android:gravity="center"
+                    android:text="@string/rene_result_party_main"
+                    android:textColor="@color/gold_bright"
+                    android:textSize="11sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="14dp"
+                android:background="@drawable/bg_rene_rule_panel"
+                android:orientation="vertical"
+                android:paddingStart="18dp"
+                android:paddingTop="16dp"
+                android:paddingEnd="18dp"
+                android:paddingBottom="16dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/manrope_bold"
+                    android:letterSpacing="0.14"
+                    android:text="@string/rene_how_it_works_title"
+                    android:textAllCaps="true"
+                    android:textColor="@color/gold_bright"
+                    android:textSize="10sp" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:fontFamily="@font/manrope_regular"
+                    android:lineSpacingExtra="2dp"
+                    android:text="@string/rene_how_it_works_body"
+                    android:textColor="@color/home_text_muted"
+                    android:textSize="14sp" />
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+
+    <LinearLayout
+        android:id="@+id/layoutLulPopup"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/bg_rene_overlay"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:padding="22dp"
+        android:visibility="gone">
+
+        <LinearLayout
+            android:id="@+id/popupCard"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_rene_popup_single_refined"
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            android:paddingStart="22dp"
+            android:paddingTop="24dp"
+            android:paddingEnd="22dp"
+            android:paddingBottom="22dp">
+
+            <TextView
+                android:id="@+id/textPopupSymbol"
+                android:layout_width="86dp"
+                android:layout_height="86dp"
+                android:background="@drawable/bg_rene_popup_symbol_red"
+                android:fontFamily="@font/bowlby_one_sc_regular"
+                android:gravity="center"
+                android:includeFontPadding="false"
+                android:text="@string/rene_popup_single_symbol"
+                android:textColor="@color/neon_red"
+                android:textSize="42sp" />
+
+            <TextView
+                android:id="@+id/textPopupTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="18dp"
+                android:fontFamily="@font/bowlby_one_sc_regular"
+                android:gravity="center"
+                android:includeFontPadding="false"
+                android:lineSpacingExtra="2dp"
+                android:text="@string/rene_popup_single_title"
+                android:textColor="@color/home_text_primary"
+                android:textSize="26sp" />
+
+            <TextView
+                android:id="@+id/textPopupSubtitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:fontFamily="@font/manrope_bold"
+                android:gravity="center"
+                android:lineSpacingExtra="2dp"
+                android:text="@string/rene_popup_single_subtitle"
+                android:textColor="@color/gold_bright"
+                android:textSize="17sp" />
+
+            <Button
+                android:id="@+id/buttonContinuePopup"
+                android:layout_width="match_parent"
+                android:layout_height="58dp"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/bg_party_primary_button"
+                android:backgroundTint="@null"
+                android:fontFamily="@font/manrope_bold"
+                android:text="@string/rene_popup_continue"
+                android:textAllCaps="false"
+                android:textColor="@color/text_dark"
+                android:textSize="16sp"
+                app:backgroundTint="@null" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/layoutFinishPopup"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/bg_rene_overlay"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:padding="22dp"
+        android:visibility="gone">
+
+        <LinearLayout
+            android:id="@+id/finishCard"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_rene_popup_finish_refined"
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            android:paddingStart="22dp"
+            android:paddingTop="24dp"
+            android:paddingEnd="22dp"
+            android:paddingBottom="22dp">
+
+            <TextView
+                android:layout_width="86dp"
+                android:layout_height="86dp"
+                android:background="@drawable/bg_rene_popup_symbol_green"
+                android:fontFamily="@font/bowlby_one_sc_regular"
+                android:gravity="center"
+                android:includeFontPadding="false"
+                android:text="@string/rene_finish_symbol"
+                android:textColor="@color/neon_green"
+                android:textSize="34sp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="18dp"
+                android:fontFamily="@font/bowlby_one_sc_regular"
+                android:gravity="center"
+                android:includeFontPadding="false"
+                android:text="@string/rene_finish_title"
+                android:textColor="@color/home_text_primary"
+                android:textSize="26sp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:fontFamily="@font/manrope_regular"
+                android:gravity="center"
+                android:lineSpacingExtra="2dp"
+                android:text="@string/rene_finish_body"
+                android:textColor="@color/home_text_muted"
+                android:textSize="15sp" />
+
+            <Button
+                android:id="@+id/buttonFinishPopupClose"
+                android:layout_width="match_parent"
+                android:layout_height="58dp"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/bg_party_primary_button"
+                android:backgroundTint="@null"
+                android:fontFamily="@font/manrope_bold"
+                android:text="@string/rene_finish_close"
+                android:textAllCaps="false"
+                android:textColor="@color/text_dark"
+                android:textSize="16sp"
+                app:backgroundTint="@null" />
+        </LinearLayout>
+    </LinearLayout>
+</FrameLayout>

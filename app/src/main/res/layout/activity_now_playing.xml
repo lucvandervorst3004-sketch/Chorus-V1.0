@@ -1,0 +1,439 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_stage_screen"
+    android:fillViewport="true"
+    android:overScrollMode="never"
+    android:scrollbars="none">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:paddingStart="18dp"
+        android:paddingTop="18dp"
+        android:paddingEnd="18dp"
+        android:paddingBottom="30dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/textPlaybackEyebrow"
+                android:layout_width="wrap_content"
+                android:layout_height="34dp"
+                android:background="@drawable/bg_now_playing_mode_badge"
+                android:fontFamily="@font/manrope_bold"
+                android:gravity="center"
+                android:letterSpacing="0.14"
+                android:paddingStart="14dp"
+                android:paddingEnd="14dp"
+                android:text="PARTY MODE"
+                android:textAllCaps="true"
+                android:textColor="@color/gold_bright"
+                android:textSize="10sp" />
+
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_weight="1" />
+
+            <Button
+                android:id="@+id/buttonOpenSettings"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:background="@drawable/bg_button_mode_outline"
+                android:backgroundTint="@null"
+                android:fontFamily="@font/manrope_bold"
+                android:minWidth="0dp"
+                android:minHeight="0dp"
+                android:paddingStart="14dp"
+                android:paddingEnd="14dp"
+                android:text="Instellingen"
+                android:textAllCaps="false"
+                android:textColor="@color/text_primary"
+                android:textSize="12sp"
+                app:backgroundTint="@null" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/playbackHeaderCard"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="14dp"
+            android:background="@drawable/bg_now_playing_header_card"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:padding="18dp">
+
+            <FrameLayout
+                android:id="@+id/playbackIconShell"
+                android:layout_width="66dp"
+                android:layout_height="66dp"
+                android:background="@drawable/bg_classic_option_icon_gold"
+                android:padding="12dp">
+
+                <ImageView
+                    android:id="@+id/imagePlaybackModeIcon"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:contentDescription="Mode"
+                    android:src="@drawable/ic_classic_lp" />
+            </FrameLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/textPlaybackHeadline"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/manrope_bold"
+                    android:includeFontPadding="false"
+                    android:lineSpacingExtra="-1dp"
+                    android:text="Luister en raad"
+                    android:textColor="@color/text_primary"
+                    android:textSize="30sp" />
+
+                <TextView
+                    android:id="@+id/textPlaybackMessage"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="7dp"
+                    android:fontFamily="@font/manrope_regular"
+                    android:lineSpacingExtra="2dp"
+                    android:text="Luister goed en laat iedereen meedoen"
+                    android:textColor="@color/home_text_muted"
+                    android:textSize="14sp" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:baselineAligned="false"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/chipYear"
+                android:layout_width="0dp"
+                android:layout_height="38dp"
+                android:layout_marginEnd="6dp"
+                android:layout_weight="1"
+                android:background="@drawable/bg_now_playing_chip"
+                android:fontFamily="@font/manrope_bold"
+                android:gravity="center"
+                android:text="Jaartal"
+                android:textColor="@color/home_text_muted"
+                android:textSize="11sp" />
+
+            <TextView
+                android:id="@+id/chipTitle"
+                android:layout_width="0dp"
+                android:layout_height="38dp"
+                android:layout_marginStart="6dp"
+                android:layout_marginEnd="6dp"
+                android:layout_weight="1"
+                android:background="@drawable/bg_now_playing_chip"
+                android:fontFamily="@font/manrope_bold"
+                android:gravity="center"
+                android:text="Nummer"
+                android:textColor="@color/home_text_muted"
+                android:textSize="11sp" />
+
+            <TextView
+                android:id="@+id/chipArtist"
+                android:layout_width="0dp"
+                android:layout_height="38dp"
+                android:layout_marginStart="6dp"
+                android:layout_weight="1"
+                android:background="@drawable/bg_now_playing_chip"
+                android:fontFamily="@font/manrope_bold"
+                android:gravity="center"
+                android:text="Artiest"
+                android:textColor="@color/home_text_muted"
+                android:textSize="11sp" />
+        </LinearLayout>
+
+        <FrameLayout
+            android:id="@+id/playerDeck"
+            android:layout_width="match_parent"
+            android:layout_height="386dp"
+            android:layout_marginTop="14dp"
+            android:background="@drawable/bg_now_playing_deck"
+            android:padding="12dp">
+
+            <View
+                android:id="@+id/visualizerGlow"
+                android:layout_width="292dp"
+                android:layout_height="292dp"
+                android:layout_gravity="center"
+                android:alpha="0.24"
+                android:background="@drawable/bg_now_playing_glow" />
+
+            <View
+                android:id="@+id/visualizerAccentGlow"
+                android:layout_width="258dp"
+                android:layout_height="258dp"
+                android:layout_gravity="center"
+                android:alpha="0.12"
+                android:background="@drawable/bg_now_playing_glow_cyan" />
+
+            <View
+                android:id="@+id/visualizerAccentGlowAlt"
+                android:layout_width="224dp"
+                android:layout_height="224dp"
+                android:layout_gravity="center"
+                android:alpha="0.10"
+                android:background="@drawable/bg_now_playing_glow_magenta" />
+
+            <View
+                android:id="@+id/visualizerRecord"
+                android:layout_width="250dp"
+                android:layout_height="250dp"
+                android:layout_gravity="center"
+                android:background="@drawable/bg_now_playing_record" />
+
+            <View
+                android:layout_width="212dp"
+                android:layout_height="212dp"
+                android:layout_gravity="center"
+                android:alpha="0.42"
+                android:background="@drawable/bg_visualizer_ring_outer" />
+
+            <View
+                android:id="@+id/visualizerOuterRing"
+                android:layout_width="178dp"
+                android:layout_height="178dp"
+                android:layout_gravity="center"
+                android:alpha="0.22"
+                android:background="@drawable/bg_visualizer_ring_outer" />
+
+            <View
+                android:id="@+id/visualizerInnerRing"
+                android:layout_width="136dp"
+                android:layout_height="136dp"
+                android:layout_gravity="center"
+                android:alpha="0.34"
+                android:background="@drawable/bg_visualizer_ring_inner" />
+
+            <TextView
+                android:id="@+id/textHiddenTrackBadge"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:layout_gravity="top|start"
+                android:layout_marginStart="14dp"
+                android:layout_marginTop="14dp"
+                android:background="@drawable/bg_now_playing_live_badge"
+                android:fontFamily="@font/manrope_bold"
+                android:gravity="center"
+                android:letterSpacing="0.12"
+                android:paddingStart="12dp"
+                android:paddingEnd="12dp"
+                android:text="TRACK VERBORGEN"
+                android:textColor="@color/gold_bright"
+                android:textSize="10sp" />
+
+            <TextView
+                android:id="@+id/textPlaybackStateBadge"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:layout_gravity="top|end"
+                android:layout_marginTop="14dp"
+                android:layout_marginEnd="14dp"
+                android:background="@drawable/bg_now_playing_state_badge"
+                android:fontFamily="@font/manrope_bold"
+                android:gravity="center"
+                android:letterSpacing="0.12"
+                android:paddingStart="12dp"
+                android:paddingEnd="12dp"
+                android:text="LIVE AUDIO"
+                android:textAllCaps="true"
+                android:textColor="@color/neon_cyan"
+                android:textSize="10sp" />
+
+            <LinearLayout
+                android:id="@+id/layoutWaveBars"
+                android:layout_width="wrap_content"
+                android:layout_height="74dp"
+                android:layout_gravity="bottom|center_horizontal"
+                android:layout_marginBottom="18dp"
+                android:gravity="bottom"
+                android:orientation="horizontal">
+
+                <View
+                    android:id="@+id/waveBarOne"
+                    android:layout_width="9dp"
+                    android:layout_height="38dp"
+                    android:layout_marginEnd="7dp"
+                    android:alpha="0.38"
+                    android:background="@drawable/bg_now_playing_wave_bar_gold"
+                    android:scaleY="0.42" />
+
+                <View
+                    android:id="@+id/waveBarTwo"
+                    android:layout_width="9dp"
+                    android:layout_height="58dp"
+                    android:layout_marginEnd="7dp"
+                    android:alpha="0.38"
+                    android:background="@drawable/bg_now_playing_wave_bar_cyan"
+                    android:scaleY="0.64" />
+
+                <View
+                    android:id="@+id/waveBarThree"
+                    android:layout_width="9dp"
+                    android:layout_height="46dp"
+                    android:layout_marginEnd="7dp"
+                    android:alpha="0.38"
+                    android:background="@drawable/bg_now_playing_wave_bar_gold"
+                    android:scaleY="0.36" />
+
+                <View
+                    android:id="@+id/waveBarFour"
+                    android:layout_width="9dp"
+                    android:layout_height="66dp"
+                    android:layout_marginEnd="7dp"
+                    android:alpha="0.38"
+                    android:background="@drawable/bg_now_playing_wave_bar_cyan"
+                    android:scaleY="0.72" />
+
+                <View
+                    android:id="@+id/waveBarFive"
+                    android:layout_width="9dp"
+                    android:layout_height="44dp"
+                    android:alpha="0.38"
+                    android:background="@drawable/bg_now_playing_wave_bar_gold"
+                    android:scaleY="0.50" />
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/buttonTogglePlayback"
+                android:layout_width="146dp"
+                android:layout_height="64dp"
+                android:layout_gravity="center"
+                android:background="@drawable/bg_now_playing_play_button"
+                android:backgroundTint="@null"
+                android:elevation="6dp"
+                android:fontFamily="@font/manrope_bold"
+                android:minWidth="0dp"
+                android:minHeight="0dp"
+                android:text="Pauze"
+                android:textAllCaps="false"
+                android:textColor="@color/text_dark"
+                android:textSize="17sp"
+                app:backgroundTint="@null" />
+        </FrameLayout>
+
+        <LinearLayout
+            android:id="@+id/cardSessionInfo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="14dp"
+            android:background="@drawable/bg_now_playing_session_card"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingStart="16dp"
+            android:paddingTop="16dp"
+            android:paddingEnd="16dp"
+            android:paddingBottom="16dp">
+
+            <FrameLayout
+                android:id="@+id/sessionIconShell"
+                android:layout_width="44dp"
+                android:layout_height="44dp"
+                android:background="@drawable/bg_scanner_state_icon"
+                android:padding="10dp">
+
+                <ImageView
+                    android:id="@+id/imageSessionIcon"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:contentDescription="Sessie"
+                    android:src="@drawable/ic_scanner_qr"
+                    android:tint="@color/gold_bright" />
+            </FrameLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/textSessionTitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/manrope_bold"
+                    android:text="Classic Mode loopt"
+                    android:textColor="@color/text_primary"
+                    android:textSize="17sp" />
+
+                <TextView
+                    android:id="@+id/textSessionBody"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp"
+                    android:fontFamily="@font/manrope_regular"
+                    android:lineSpacingExtra="2dp"
+                    android:text="Geen trackinfo zichtbaar. Raad op gehoor."
+                    android:textColor="@color/home_text_muted"
+                    android:textSize="13sp" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/textPressureFooter"
+            android:layout_width="match_parent"
+            android:layout_height="38dp"
+            android:layout_marginTop="12dp"
+            android:background="@drawable/bg_now_playing_chip"
+            android:fontFamily="@font/manrope_bold"
+            android:gravity="center"
+            android:text="Starts gebruikt: 0 / 2"
+            android:textColor="@color/home_text_muted"
+            android:textSize="12sp"
+            android:visibility="gone" />
+
+        <Button
+            android:id="@+id/buttonOpenAnswer"
+            android:layout_width="match_parent"
+            android:layout_height="58dp"
+            android:layout_marginTop="14dp"
+            android:background="@drawable/bg_stage_ghost_button"
+            android:backgroundTint="@null"
+            android:fontFamily="@font/manrope_bold"
+            android:text="Antwoord invullen"
+            android:textAllCaps="false"
+            android:textColor="#C7D4F0"
+            android:textSize="16sp"
+            android:visibility="gone"
+            app:backgroundTint="@null" />
+
+        <Button
+            android:id="@+id/buttonNextCard"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginTop="12dp"
+            android:background="@drawable/bg_stage_gold_button"
+            android:backgroundTint="@null"
+            android:fontFamily="@font/manrope_bold"
+            android:text="Volgende kaart →"
+            android:textAllCaps="false"
+            android:textColor="@color/text_dark"
+            android:textSize="17sp"
+            app:backgroundTint="@null" />
+
+    </LinearLayout>
+</ScrollView>

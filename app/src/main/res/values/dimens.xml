@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="home_screen_horizontal_padding">24dp</dimen>
+    <dimen name="home_screen_top_spacing">12dp</dimen>
+    <dimen name="home_screen_bottom_spacing">24dp</dimen>
+</resources>
