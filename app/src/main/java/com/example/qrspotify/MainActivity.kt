@@ -179,9 +179,14 @@ class MainActivity : AppCompatActivity() {
 
     private fun render(state: AppUiState) {
         val isConnected = state.isConnected
+        val isConnecting = state.isConnecting
 
         binding.textConnectionStatus.text =
-            if (isConnected) getString(R.string.home_connection_ready) else getString(R.string.home_connection_not_ready)
+            when {
+                isConnected -> getString(R.string.home_connection_ready)
+                isConnecting -> state.connectionStatus
+                else -> getString(R.string.home_connection_not_ready)
+            }
 
         binding.textStatusBadge.text =
             if (isConnected) getString(R.string.home_connected_badge) else getString(R.string.home_disconnected_badge)
@@ -208,10 +213,14 @@ class MainActivity : AppCompatActivity() {
         binding.buttonOpenPractice.isEnabled = isConnected
         binding.buttonOpenDuel.isEnabled = isConnected
         binding.buttonOpenReneLeBak.isEnabled = isConnected
-        binding.buttonConnectSpotify.isEnabled = !isConnected
+        binding.buttonConnectSpotify.isEnabled = !isConnected && !isConnecting
 
         binding.buttonConnectSpotify.text =
-            if (isConnected) getString(R.string.home_spotify_connected) else getString(R.string.home_connect_spotify)
+            when {
+                isConnected -> getString(R.string.home_spotify_connected)
+                isConnecting -> getString(R.string.home_connecting)
+                else -> getString(R.string.home_connect_spotify)
+            }
 
         val modeCardAlpha = if (isConnected) 1f else 0.58f
         binding.buttonContinueClassic.alpha = modeCardAlpha

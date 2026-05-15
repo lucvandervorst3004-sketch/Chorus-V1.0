@@ -15,7 +15,7 @@ import com.spotify.protocol.types.PlayerState
 object SpotifyManager {
 
     private const val TAG = "SpotifyManager"
-    private const val CONNECT_TIMEOUT_MS = 60000L
+    private const val CONNECT_TIMEOUT_MS = 30000L
     private const val SHUFFLE_AFTER_CONTEXT_DELAY_MS = 450L
     private const val PLAYBACK_VERIFY_DELAY_MS = 900L
     private const val MAX_PLAYBACK_START_ATTEMPTS = 3
@@ -26,6 +26,7 @@ object SpotifyManager {
 
     private val mainHandler = Handler(Looper.getMainLooper())
     private var connectTimeoutRunnable: Runnable? = null
+    private var pendingConnectCallback: ((Boolean, String) -> Unit)? = null
     private var playbackVerifyRunnable: Runnable? = null
     private var playbackStartGeneration: Int = 0
 
@@ -56,18 +57,21 @@ object SpotifyManager {
         if (isConnecting) {
             val message = "Spotify is al aan het verbinden."
             Log.d(TAG, message)
-            onFinished?.invoke(false, message)
+            if (onFinished != null) {
+                pendingConnectCallback = onFinished
+            }
             return
         }
 
         resetConnectionState()
 
         isConnecting = true
-        AppStateStore.setConnection(false, "Verbinden met Spotify…")
+        pendingConnectCallback = onFinished
+        AppStateStore.setConnection(false, "Verbinden met Spotify…", isConnecting = true)
         AppStateStore.setPlayback(false, true, "Geen playback")
         AppStateStore.clearError()
 
-        startConnectTimeout(onFinished)
+        startConnectTimeout()
 
         val connectionParams = ConnectionParams.Builder(BuildConfig.SPOTIFY_CLIENT_ID)
             .setRedirectUri(BuildConfig.SPOTIFY_REDIRECT_URI)
@@ -89,7 +93,7 @@ object SpotifyManager {
                 switchToLocalDevice()
                 refreshPlayerState()
 
-                onFinished?.invoke(true, "Verbonden")
+                completeConnect(true, "Verbonden")
             }
 
             override fun onFailure(throwable: Throwable) {
@@ -106,7 +110,7 @@ object SpotifyManager {
                 AppStateStore.setPlayback(false, true, "Geen playback")
                 AppStateStore.setError(message)
 
-                onFinished?.invoke(false, message)
+                completeConnect(false, message)
             }
         })
     }
@@ -123,11 +127,11 @@ object SpotifyManager {
             return
         }
 
-        AppStateStore.setConnection(false, "Spotify-toestemming ontvangen…")
+        AppStateStore.setConnection(false, "Spotify-toestemming ontvangen…", isConnecting = true)
         AppStateStore.clearError()
 
         if (isConnecting) {
-            startConnectTimeout(null)
+            startConnectTimeout()
             return
         }
 
@@ -613,7 +617,7 @@ object SpotifyManager {
             }
     }
 
-    private fun startConnectTimeout(onFinished: ((Boolean, String) -> Unit)?) {
+    private fun startConnectTimeout() {
         clearConnectTimeout()
 
         connectTimeoutRunnable = Runnable {
@@ -635,7 +639,7 @@ object SpotifyManager {
             AppStateStore.setPlayback(false, true, "Geen playback")
             AppStateStore.setError(message)
 
-            onFinished?.invoke(false, message)
+            completeConnect(false, message)
         }
 
         mainHandler.postDelayed(connectTimeoutRunnable!!, CONNECT_TIMEOUT_MS)
@@ -646,6 +650,12 @@ object SpotifyManager {
             mainHandler.removeCallbacks(runnable)
         }
         connectTimeoutRunnable = null
+    }
+
+    private fun completeConnect(success: Boolean, message: String) {
+        val callback = pendingConnectCallback
+        pendingConnectCallback = null
+        callback?.invoke(success, message)
     }
 
     private fun nextPlaybackStartGeneration(): Int {
@@ -663,6 +673,7 @@ object SpotifyManager {
 
     private fun resetConnectionState() {
         clearConnectTimeout()
+        pendingConnectCallback = null
         cancelPlaybackVerification()
 
         playerStateSubscription?.cancel()

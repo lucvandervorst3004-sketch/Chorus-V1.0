@@ -51,10 +51,11 @@ object AppStateStore {
         }
     }
 
-    fun setConnection(isConnected: Boolean, status: String) {
+    fun setConnection(isConnected: Boolean, status: String, isConnecting: Boolean = false) {
         _state.update {
             it.copy(
                 isConnected = isConnected,
+                isConnecting = isConnecting,
                 connectionStatus = status
             )
         }

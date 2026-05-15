@@ -123,21 +123,31 @@ class SettingsActivity : AppCompatActivity() {
         )
 
         binding.textConnectionValue.text =
-            if (state.isConnected) "Gekoppeld" else "Niet gekoppeld"
+            when {
+                state.isConnected -> "Gekoppeld"
+                state.isConnecting -> "Koppelen..."
+                else -> "Niet gekoppeld"
+            }
 
         binding.textConnectionValue.setTextColor(
             ContextCompat.getColor(this, connectionAccent)
         )
 
         binding.textConnectionHint.text =
-            if (state.isConnected) {
-                "Spotify is klaar voor Classic Mode."
-            } else {
-                "Koppel Spotify vanaf het startscherm om direct te kunnen spelen."
+            when {
+                state.isConnected -> "Spotify is klaar voor Classic Mode."
+                state.isConnecting -> state.connectionStatus
+                else -> "Koppel Spotify vanaf het startscherm om direct te kunnen spelen."
             }
 
         binding.buttonReconnect.text =
-            if (state.isConnected) "Opnieuw" else "Koppel"
+            when {
+                state.isConnecting -> "Bezig..."
+                state.isConnected -> "Opnieuw"
+                else -> "Koppel"
+            }
+
+        binding.buttonReconnect.isEnabled = !state.isConnecting
 
         binding.buttonReconnect.setBackgroundResource(
             if (state.isConnected) {

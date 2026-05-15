@@ -9,6 +9,7 @@ data class AppUiState(
     val currentTrackName: String = "Geen track geladen",
     val currentArtistName: String = "",
     val isConnected: Boolean = false,
+    val isConnecting: Boolean = false,
     val isPlaying: Boolean = false,
     val isPaused: Boolean = true,
     val lastError: String = ""
