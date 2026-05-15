@@ -23,7 +23,9 @@ android {
 
     buildTypes {
         release {
-            isMinifyEnabled = false
+            isDebuggable = false
+            isMinifyEnabled = true
+            isShrinkResources = true
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
@@ -54,7 +56,7 @@ android {
 
 dependencies {
     implementation(files("libs/spotify-app-remote-release-0.8.0.aar"))
-    implementation("com.google.code.gson:gson:2.6.1")
+    implementation("com.google.code.gson:gson:2.14.0")
 
     implementation("androidx.core:core-ktx:1.17.0")
     implementation("androidx.appcompat:appcompat:1.7.0")
