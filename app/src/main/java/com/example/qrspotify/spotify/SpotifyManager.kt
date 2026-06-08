@@ -1,6 +1,8 @@
 package com.example.qrspotify.spotify
 
 import android.app.Activity
+import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
@@ -11,6 +13,8 @@ import com.spotify.android.appremote.api.Connector
 import com.spotify.android.appremote.api.SpotifyAppRemote
 import com.spotify.protocol.client.Subscription
 import com.spotify.protocol.types.PlayerState
+import java.security.MessageDigest
+import java.util.Locale
 
 object SpotifyManager {
 
@@ -19,6 +23,30 @@ object SpotifyManager {
     private const val SHUFFLE_AFTER_CONTEXT_DELAY_MS = 450L
     private const val PLAYBACK_VERIFY_DELAY_MS = 900L
     private const val MAX_PLAYBACK_START_ATTEMPTS = 3
+    private val SPOTIFY_CONFIG_ERROR_MARKERS = listOf(
+        "redirect",
+        "client id",
+        "client_id",
+        "app id",
+        "invalid_app",
+        "package",
+        "fingerprint",
+        "sha",
+        "signature"
+    )
+    private val SPOTIFY_DEVELOPER_ACCESS_ERROR_MARKERS = listOf(
+        "403",
+        "allowlist",
+        "allow list",
+        "allowlisted",
+        "developer",
+        "development mode",
+        "quota",
+        "not registered",
+        "not whitelisted",
+        "whitelist",
+        "user management"
+    )
 
     private var spotifyAppRemote: SpotifyAppRemote? = null
     private var playerStateSubscription: Subscription<PlayerState>? = null
@@ -105,7 +133,7 @@ object SpotifyManager {
                 playerStateSubscription?.cancel()
                 playerStateSubscription = null
 
-                val message = mapConnectionError(throwable)
+                val message = mapConnectionError(activity, throwable)
                 AppStateStore.setConnection(false, "Niet verbonden")
                 AppStateStore.setPlayback(false, true, "Geen playback")
                 AppStateStore.setError(message)
@@ -688,15 +716,84 @@ object SpotifyManager {
         spotifyAppRemote = null
     }
 
-    private fun mapConnectionError(throwable: Throwable): String {
-        return when (throwable.javaClass.simpleName) {
-            "CouldNotFindSpotifyApp" -> "Spotify is niet geïnstalleerd op dit toestel."
-            "NotLoggedInException" -> "Log eerst in in de Spotify-app op dit toestel."
-            "UserNotAuthorizedException" -> "Geef deze app Spotify-toegang en probeer het daarna opnieuw."
-            "LoggedOutException" -> "De Spotify-sessie is uitgelogd. Log opnieuw in in Spotify en probeer het opnieuw."
-            "SpotifyConnectionTerminatedException" -> "De Spotify-verbinding is beëindigd. Probeer opnieuw te verbinden."
-            "SpotifyRemoteServiceException" -> "Spotify kon niet als achtergrondservice starten. Open Spotify één keer handmatig en probeer opnieuw."
-            else -> "Spotify-verbinding mislukt: ${throwable.message ?: throwable.javaClass.simpleName}"
+    private fun mapConnectionError(activity: Activity, throwable: Throwable): String {
+        val errorName = throwable.javaClass.simpleName
+        val errorMessage = throwable.message.orEmpty()
+        val normalizedErrorMessage = errorMessage.lowercase(Locale.US)
+        val spotifyDashboardCheck = spotifyDashboardCheck(activity)
+
+        return when {
+            isSpotifyConfigurationError(errorName, normalizedErrorMessage) -> {
+                "Spotify-configuratie klopt niet. Controleer deze waarden in het Spotify Developer Dashboard: $spotifyDashboardCheck"
+            }
+            isDeveloperAccessError(errorName, normalizedErrorMessage) -> {
+                "Spotify weigert dit account voor deze app. Staat het account al in Users Management? Controleer dan ook deze waarden: $spotifyDashboardCheck"
+            }
+            errorName == "AuthenticationFailedException" -> {
+                "Spotify-authenticatie mislukte. Controleer of de Spotify-app is ingelogd met het juiste account, of dit account in Users Management staat, en of deze waarden kloppen: $spotifyDashboardCheck"
+            }
+            errorName == "CouldNotFindSpotifyApp" -> "Spotify is niet geïnstalleerd op dit toestel."
+            errorName == "NotLoggedInException" -> "Log eerst in in de Spotify-app op dit toestel."
+            errorName == "UserNotAuthorizedException" -> "Geef deze app Spotify-toegang en probeer het daarna opnieuw."
+            errorName == "LoggedOutException" -> "De Spotify-sessie is uitgelogd. Log opnieuw in in Spotify en probeer het opnieuw."
+            errorName == "SpotifyConnectionTerminatedException" -> "De Spotify-verbinding is beëindigd. Probeer opnieuw te verbinden."
+            errorName == "SpotifyRemoteServiceException" -> "Spotify kon niet als achtergrondservice starten. Open Spotify één keer handmatig en probeer opnieuw."
+            else -> "Spotify-verbinding mislukt: ${errorMessage.ifBlank { errorName }}"
+        }
+    }
+
+    private fun isSpotifyConfigurationError(errorName: String, normalizedErrorMessage: String): Boolean {
+        if (errorName != "AuthenticationFailedException") {
+            return false
+        }
+
+        return SPOTIFY_CONFIG_ERROR_MARKERS.any { marker -> normalizedErrorMessage.contains(marker) }
+    }
+
+    private fun isDeveloperAccessError(errorName: String, normalizedErrorMessage: String): Boolean {
+        if (errorName != "AuthenticationFailedException") {
+            return false
+        }
+
+        return SPOTIFY_DEVELOPER_ACCESS_ERROR_MARKERS.any { marker ->
+            normalizedErrorMessage.contains(marker)
+        }
+    }
+
+    private fun spotifyDashboardCheck(activity: Activity): String {
+        val signingSha1 = installedAppSigningSha1(activity) ?: "onbekend"
+        return "client ID ${BuildConfig.SPOTIFY_CLIENT_ID}, package ${activity.packageName}, SHA-1 $signingSha1, redirect URI ${BuildConfig.SPOTIFY_REDIRECT_URI}"
+    }
+
+    @Suppress("DEPRECATION")
+    private fun installedAppSigningSha1(activity: Activity): String? {
+        return try {
+            val packageInfo = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+                activity.packageManager.getPackageInfo(
+                    activity.packageName,
+                    PackageManager.GET_SIGNING_CERTIFICATES
+                )
+            } else {
+                activity.packageManager.getPackageInfo(
+                    activity.packageName,
+                    PackageManager.GET_SIGNATURES
+                )
+            }
+
+            val signatures = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+                packageInfo.signingInfo?.apkContentsSigners
+            } else {
+                packageInfo.signatures
+            }
+
+            val signature = signatures?.firstOrNull() ?: return null
+            val digest = MessageDigest.getInstance("SHA-1").digest(signature.toByteArray())
+            digest.joinToString(":") { byte ->
+                String.format(Locale.US, "%02X", byte.toInt() and 0xFF)
+            }
+        } catch (exception: Exception) {
+            Log.e(TAG, "Kon app SHA-1 fingerprint niet lezen", exception)
+            null
         }
     }
 }
