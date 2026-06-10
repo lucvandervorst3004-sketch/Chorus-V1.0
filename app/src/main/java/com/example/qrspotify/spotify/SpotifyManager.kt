@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.net.Uri
 import android.os.Build
 import android.os.Handler
 import android.os.Looper
@@ -26,6 +27,9 @@ object SpotifyManager {
     private const val SHUFFLE_AFTER_CONTEXT_DELAY_MS = 450L
     private const val PLAYBACK_VERIFY_DELAY_MS = 900L
     private const val MAX_PLAYBACK_START_ATTEMPTS = 3
+    private const val SPOTIFY_AUTH_SCOPE = "app-remote-control"
+    private const val SPOTIFY_AUTH_RESPONSE_TYPE = "code"
+    private const val SPOTIFY_AUTH_STATE_PREFIX = "chorus-spotify-link-"
     private val SPOTIFY_CONFIG_ERROR_MARKERS = listOf(
         "redirect",
         "client id",
@@ -61,6 +65,7 @@ object SpotifyManager {
     private var pendingConnectCallback: ((Boolean, String) -> Unit)? = null
     private var retryConnectionWhenForeground: Boolean = false
     private var retryConnectCallback: ((Boolean, String) -> Unit)? = null
+    private var pendingSpotifyAuthState: String? = null
     private var playbackVerifyRunnable: Runnable? = null
     private var playbackStartGeneration: Int = 0
 
@@ -68,14 +73,14 @@ object SpotifyManager {
         connectInternal(
             activity = activity,
             onFinished = onFinished,
-            allowSpotifyForegroundRecovery = true
+            allowSpotifyWebAuthRecovery = true
         )
     }
 
     private fun connectInternal(
         activity: Activity,
         onFinished: ((Boolean, String) -> Unit)? = null,
-        allowSpotifyForegroundRecovery: Boolean
+        allowSpotifyWebAuthRecovery: Boolean
     ) {
         Log.d(TAG, "connect() gestart")
 
@@ -122,7 +127,7 @@ object SpotifyManager {
 
         val connectionParams = ConnectionParams.Builder(BuildConfig.SPOTIFY_CLIENT_ID)
             .setRedirectUri(BuildConfig.SPOTIFY_REDIRECT_URI)
-            .showAuthView(true)
+            .showAuthView(false)
             .build()
 
         SpotifyAppRemote.connect(activity, connectionParams, object : Connector.ConnectionListener {
@@ -166,8 +171,8 @@ object SpotifyManager {
                 playerStateSubscription = null
 
                 val message = mapConnectionError(activity, throwable)
-                if (allowSpotifyForegroundRecovery && shouldOpenSpotifyForRecovery(throwable)) {
-                    openSpotifyForConnectionRecovery(activity, onFinished, message)
+                if (allowSpotifyWebAuthRecovery && shouldOpenSpotifyWebAuthForRecovery(throwable)) {
+                    openSpotifyWebAuthForConnectionRecovery(activity, onFinished, message)
                     return
                 }
 
@@ -208,12 +213,12 @@ object SpotifyManager {
         connectInternal(
             activity = activity,
             onFinished = callback,
-            allowSpotifyForegroundRecovery = false
+            allowSpotifyWebAuthRecovery = false
         )
         return true
     }
 
-    fun handleAuthCallbackReturn(activity: Activity) {
+    fun handleAuthCallbackReturn(activity: Activity, callbackUri: Uri? = null) {
         Log.d(TAG, "handleAuthCallbackReturn()")
 
         val currentRemote = spotifyAppRemote
@@ -225,6 +230,37 @@ object SpotifyManager {
             return
         }
 
+        val authError = callbackUri?.getQueryParameter("error").orEmpty()
+        if (authError.isNotBlank()) {
+            val message = "Spotify website-koppeling is niet gelukt: $authError"
+            clearConnectTimeout()
+            isConnecting = false
+            retryConnectionWhenForeground = false
+            retryConnectCallback = null
+            pendingSpotifyAuthState = null
+            AppStateStore.setConnection(false, "Niet verbonden")
+            AppStateStore.setPlayback(false, true, "Geen playback")
+            AppStateStore.setError(message)
+            completeConnect(false, message)
+            return
+        }
+
+        val returnedState = callbackUri?.getQueryParameter("state")
+        val expectedState = pendingSpotifyAuthState
+        if (expectedState != null && returnedState != null && returnedState != expectedState) {
+            val message = "Spotify website-koppeling is afgebroken door een ongeldige terugkeerwaarde."
+            clearConnectTimeout()
+            isConnecting = false
+            retryConnectionWhenForeground = false
+            retryConnectCallback = null
+            pendingSpotifyAuthState = null
+            AppStateStore.setConnection(false, "Niet verbonden")
+            AppStateStore.setPlayback(false, true, "Geen playback")
+            AppStateStore.setError(message)
+            completeConnect(false, message)
+            return
+        }
+
         AppStateStore.setConnection(false, "Spotify-toestemming ontvangen…", isConnecting = true)
         AppStateStore.clearError()
 
@@ -233,13 +269,14 @@ object SpotifyManager {
         isConnecting = false
         retryConnectionWhenForeground = false
         retryConnectCallback = null
+        pendingSpotifyAuthState = null
         connectionAttemptGeneration += 1
 
         mainHandler.postDelayed({
             connectInternal(
                 activity = activity,
                 onFinished = callback,
-                allowSpotifyForegroundRecovery = false
+                allowSpotifyWebAuthRecovery = false
             )
         }, AUTH_RETURN_RECONNECT_DELAY_MS)
     }
@@ -520,6 +557,7 @@ object SpotifyManager {
         retryConnectionWhenForeground = false
         retryConnectCallback = null
         pendingConnectCallback = null
+        pendingSpotifyAuthState = null
         connectionAttemptGeneration += 1
 
         playerStateSubscription?.cancel()
@@ -795,6 +833,7 @@ object SpotifyManager {
         pendingConnectCallback = null
         retryConnectionWhenForeground = false
         retryConnectCallback = null
+        pendingSpotifyAuthState = null
         connectionAttemptGeneration += 1
         cancelPlaybackVerification()
 
@@ -810,7 +849,7 @@ object SpotifyManager {
         spotifyAppRemote = null
     }
 
-    private fun shouldOpenSpotifyForRecovery(throwable: Throwable): Boolean {
+    private fun shouldOpenSpotifyWebAuthForRecovery(throwable: Throwable): Boolean {
         val errorName = throwable.javaClass.simpleName
         val normalizedErrorMessage = throwable.message.orEmpty().lowercase(Locale.US)
 
@@ -821,49 +860,61 @@ object SpotifyManager {
             normalizedErrorMessage.contains("not logged in")
     }
 
-    private fun openSpotifyForConnectionRecovery(
+    private fun openSpotifyWebAuthForConnectionRecovery(
         activity: Activity,
         callback: ((Boolean, String) -> Unit)?,
         originalMessage: String
     ) {
         val recoveryMessage =
-            "Spotify moet het juiste account activeren. Spotify wordt geopend; log in met het toegelaten account en keer daarna terug naar Chorus."
+            "Spotify moet dit account via de website koppelen. Log in op de Spotify-pagina en keer daarna terug naar Chorus."
 
         retryConnectionWhenForeground = true
         retryConnectCallback = callback
-        AppStateStore.setConnection(false, "Spotify openen…", isConnecting = true)
+        AppStateStore.setConnection(false, "Spotify website openen…", isConnecting = true)
         AppStateStore.setPlayback(false, true, "Geen playback")
         AppStateStore.setError(recoveryMessage)
 
-        if (openSpotifyApp(activity)) {
+        if (openSpotifyWebAuthPage(activity)) {
             return
         }
 
         retryConnectionWhenForeground = false
         retryConnectCallback = null
 
-        val message = "$originalMessage Spotify kon niet automatisch worden geopend."
+        val message = "$originalMessage Spotify website kon niet automatisch worden geopend."
         AppStateStore.setConnection(false, "Niet verbonden")
         AppStateStore.setError(message)
         completeConnect(false, message)
     }
 
-    private fun openSpotifyApp(activity: Activity): Boolean {
-        val launchIntent = activity.packageManager
-            .getLaunchIntentForPackage(BuildConfig.SPOTIFY_APP_PACKAGE)
-            ?.apply {
-                addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT)
-            }
-            ?: return false
+    private fun openSpotifyWebAuthPage(activity: Activity): Boolean {
+        val state = "$SPOTIFY_AUTH_STATE_PREFIX${System.currentTimeMillis()}"
+        pendingSpotifyAuthState = state
+
+        val authUri = Uri.Builder()
+            .scheme("https")
+            .authority("accounts.spotify.com")
+            .appendPath("authorize")
+            .appendQueryParameter("client_id", BuildConfig.SPOTIFY_CLIENT_ID)
+            .appendQueryParameter("response_type", SPOTIFY_AUTH_RESPONSE_TYPE)
+            .appendQueryParameter("redirect_uri", BuildConfig.SPOTIFY_REDIRECT_URI)
+            .appendQueryParameter("scope", SPOTIFY_AUTH_SCOPE)
+            .appendQueryParameter("show_dialog", "true")
+            .appendQueryParameter("state", state)
+            .build()
+
+        val authIntent = Intent(Intent.ACTION_VIEW, authUri).apply {
+            addCategory(Intent.CATEGORY_BROWSABLE)
+        }
 
         return try {
-            activity.startActivity(launchIntent)
+            activity.startActivity(authIntent)
             true
         } catch (exception: ActivityNotFoundException) {
-            Log.e(TAG, "Spotify-app kon niet worden geopend", exception)
+            Log.e(TAG, "Spotify website kon niet worden geopend", exception)
             false
         } catch (exception: SecurityException) {
-            Log.e(TAG, "Geen toestemming om Spotify-app te openen", exception)
+            Log.e(TAG, "Geen toestemming om Spotify website te openen", exception)
             false
         }
     }

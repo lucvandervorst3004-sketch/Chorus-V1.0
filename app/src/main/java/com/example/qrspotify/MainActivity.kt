@@ -149,7 +149,7 @@ class MainActivity : AppCompatActivity() {
     private fun handleSpotifyCallbackIntent(intent: Intent?) {
         val data = intent?.data ?: return
         if (data.scheme == "qrspotify" && data.host == "spotify-auth-callback") {
-            SpotifyManager.handleAuthCallbackReturn(this)
+            SpotifyManager.handleAuthCallbackReturn(this, data)
         }
     }
 
