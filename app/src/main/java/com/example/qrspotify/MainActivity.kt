@@ -68,7 +68,9 @@ class MainActivity : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
-        SpotifyManager.refreshPlayerState()
+        if (!SpotifyManager.resumePendingConnectionAfterSpotifyReturn(this)) {
+            SpotifyManager.refreshPlayerState()
+        }
     }
 
     private fun applyInsets() {

@@ -1,6 +1,8 @@
 package com.example.qrspotify.spotify
 
 import android.app.Activity
+import android.content.ActivityNotFoundException
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Handler
@@ -20,6 +22,7 @@ object SpotifyManager {
 
     private const val TAG = "SpotifyManager"
     private const val CONNECT_TIMEOUT_MS = 30000L
+    private const val AUTH_RETURN_RECONNECT_DELAY_MS = 350L
     private const val SHUFFLE_AFTER_CONTEXT_DELAY_MS = 450L
     private const val PLAYBACK_VERIFY_DELAY_MS = 900L
     private const val MAX_PLAYBACK_START_ATTEMPTS = 3
@@ -51,14 +54,29 @@ object SpotifyManager {
     private var spotifyAppRemote: SpotifyAppRemote? = null
     private var playerStateSubscription: Subscription<PlayerState>? = null
     private var isConnecting: Boolean = false
+    private var connectionAttemptGeneration: Int = 0
 
     private val mainHandler = Handler(Looper.getMainLooper())
     private var connectTimeoutRunnable: Runnable? = null
     private var pendingConnectCallback: ((Boolean, String) -> Unit)? = null
+    private var retryConnectionWhenForeground: Boolean = false
+    private var retryConnectCallback: ((Boolean, String) -> Unit)? = null
     private var playbackVerifyRunnable: Runnable? = null
     private var playbackStartGeneration: Int = 0
 
     fun connect(activity: Activity, onFinished: ((Boolean, String) -> Unit)? = null) {
+        connectInternal(
+            activity = activity,
+            onFinished = onFinished,
+            allowSpotifyForegroundRecovery = true
+        )
+    }
+
+    private fun connectInternal(
+        activity: Activity,
+        onFinished: ((Boolean, String) -> Unit)? = null,
+        allowSpotifyForegroundRecovery: Boolean
+    ) {
         Log.d(TAG, "connect() gestart")
 
         if (!SpotifyAppRemote.isSpotifyInstalled(activity)) {
@@ -93,13 +111,14 @@ object SpotifyManager {
 
         resetConnectionState()
 
+        val attemptGeneration = nextConnectionAttemptGeneration()
         isConnecting = true
         pendingConnectCallback = onFinished
         AppStateStore.setConnection(false, "Verbinden met Spotify…", isConnecting = true)
         AppStateStore.setPlayback(false, true, "Geen playback")
         AppStateStore.clearError()
 
-        startConnectTimeout()
+        startConnectTimeout(attemptGeneration)
 
         val connectionParams = ConnectionParams.Builder(BuildConfig.SPOTIFY_CLIENT_ID)
             .setRedirectUri(BuildConfig.SPOTIFY_REDIRECT_URI)
@@ -110,8 +129,16 @@ object SpotifyManager {
             override fun onConnected(appRemote: SpotifyAppRemote) {
                 Log.d(TAG, "onConnected()")
 
+                if (!isActiveConnectionAttempt(attemptGeneration)) {
+                    Log.d(TAG, "Verouderde Spotify connect-callback genegeerd")
+                    SpotifyAppRemote.disconnect(appRemote)
+                    return
+                }
+
                 clearConnectTimeout()
                 isConnecting = false
+                retryConnectionWhenForeground = false
+                retryConnectCallback = null
                 spotifyAppRemote = appRemote
 
                 AppStateStore.setConnection(true, "Verbonden met Spotify")
@@ -127,6 +154,11 @@ object SpotifyManager {
             override fun onFailure(throwable: Throwable) {
                 Log.e(TAG, "onFailure()", throwable)
 
+                if (!isActiveConnectionAttempt(attemptGeneration)) {
+                    Log.d(TAG, "Verouderde Spotify failure-callback genegeerd")
+                    return
+                }
+
                 clearConnectTimeout()
                 isConnecting = false
                 spotifyAppRemote = null
@@ -134,6 +166,11 @@ object SpotifyManager {
                 playerStateSubscription = null
 
                 val message = mapConnectionError(activity, throwable)
+                if (allowSpotifyForegroundRecovery && shouldOpenSpotifyForRecovery(throwable)) {
+                    openSpotifyForConnectionRecovery(activity, onFinished, message)
+                    return
+                }
+
                 AppStateStore.setConnection(false, "Niet verbonden")
                 AppStateStore.setPlayback(false, true, "Geen playback")
                 AppStateStore.setError(message)
@@ -141,6 +178,39 @@ object SpotifyManager {
                 completeConnect(false, message)
             }
         })
+    }
+
+    fun resumePendingConnectionAfterSpotifyReturn(activity: Activity): Boolean {
+        if (!retryConnectionWhenForeground) {
+            return false
+        }
+
+        val currentRemote = spotifyAppRemote
+        if (currentRemote != null && currentRemote.isConnected) {
+            retryConnectionWhenForeground = false
+            retryConnectCallback = null
+            AppStateStore.setConnection(true, "Verbonden met Spotify")
+            AppStateStore.clearError()
+            subscribeToPlayerState()
+            refreshPlayerState()
+            return false
+        }
+
+        if (isConnecting) {
+            return true
+        }
+
+        val callback = retryConnectCallback ?: pendingConnectCallback
+        retryConnectionWhenForeground = false
+        retryConnectCallback = null
+
+        AppStateStore.setConnection(false, "Spotify-sessie controleren…", isConnecting = true)
+        connectInternal(
+            activity = activity,
+            onFinished = callback,
+            allowSpotifyForegroundRecovery = false
+        )
+        return true
     }
 
     fun handleAuthCallbackReturn(activity: Activity) {
@@ -158,12 +228,20 @@ object SpotifyManager {
         AppStateStore.setConnection(false, "Spotify-toestemming ontvangen…", isConnecting = true)
         AppStateStore.clearError()
 
-        if (isConnecting) {
-            startConnectTimeout()
-            return
-        }
+        val callback = pendingConnectCallback ?: retryConnectCallback
+        clearConnectTimeout()
+        isConnecting = false
+        retryConnectionWhenForeground = false
+        retryConnectCallback = null
+        connectionAttemptGeneration += 1
 
-        connect(activity)
+        mainHandler.postDelayed({
+            connectInternal(
+                activity = activity,
+                onFinished = callback,
+                allowSpotifyForegroundRecovery = false
+            )
+        }, AUTH_RETURN_RECONNECT_DELAY_MS)
     }
 
     fun connectAndPlay(
@@ -439,6 +517,10 @@ object SpotifyManager {
         clearConnectTimeout()
         cancelPlaybackVerification()
         isConnecting = false
+        retryConnectionWhenForeground = false
+        retryConnectCallback = null
+        pendingConnectCallback = null
+        connectionAttemptGeneration += 1
 
         playerStateSubscription?.cancel()
         playerStateSubscription = null
@@ -645,11 +727,11 @@ object SpotifyManager {
             }
     }
 
-    private fun startConnectTimeout() {
+    private fun startConnectTimeout(attemptGeneration: Int) {
         clearConnectTimeout()
 
         connectTimeoutRunnable = Runnable {
-            if (!isConnecting) {
+            if (!isActiveConnectionAttempt(attemptGeneration)) {
                 return@Runnable
             }
 
@@ -686,6 +768,15 @@ object SpotifyManager {
         callback?.invoke(success, message)
     }
 
+    private fun nextConnectionAttemptGeneration(): Int {
+        connectionAttemptGeneration += 1
+        return connectionAttemptGeneration
+    }
+
+    private fun isActiveConnectionAttempt(attemptGeneration: Int): Boolean {
+        return isConnecting && attemptGeneration == connectionAttemptGeneration
+    }
+
     private fun nextPlaybackStartGeneration(): Int {
         playbackStartGeneration += 1
         playbackVerifyRunnable?.let { mainHandler.removeCallbacks(it) }
@@ -702,6 +793,9 @@ object SpotifyManager {
     private fun resetConnectionState() {
         clearConnectTimeout()
         pendingConnectCallback = null
+        retryConnectionWhenForeground = false
+        retryConnectCallback = null
+        connectionAttemptGeneration += 1
         cancelPlaybackVerification()
 
         playerStateSubscription?.cancel()
@@ -714,6 +808,64 @@ object SpotifyManager {
             }
         }
         spotifyAppRemote = null
+    }
+
+    private fun shouldOpenSpotifyForRecovery(throwable: Throwable): Boolean {
+        val errorName = throwable.javaClass.simpleName
+        val normalizedErrorMessage = throwable.message.orEmpty().lowercase(Locale.US)
+
+        return errorName == "NotLoggedInException" ||
+            errorName == "LoggedOutException" ||
+            errorName == "UserNotAuthorizedException" ||
+            normalizedErrorMessage.contains("explicit user authorization") ||
+            normalizedErrorMessage.contains("not logged in")
+    }
+
+    private fun openSpotifyForConnectionRecovery(
+        activity: Activity,
+        callback: ((Boolean, String) -> Unit)?,
+        originalMessage: String
+    ) {
+        val recoveryMessage =
+            "Spotify moet het juiste account activeren. Spotify wordt geopend; log in met het toegelaten account en keer daarna terug naar Chorus."
+
+        retryConnectionWhenForeground = true
+        retryConnectCallback = callback
+        AppStateStore.setConnection(false, "Spotify openen…", isConnecting = true)
+        AppStateStore.setPlayback(false, true, "Geen playback")
+        AppStateStore.setError(recoveryMessage)
+
+        if (openSpotifyApp(activity)) {
+            return
+        }
+
+        retryConnectionWhenForeground = false
+        retryConnectCallback = null
+
+        val message = "$originalMessage Spotify kon niet automatisch worden geopend."
+        AppStateStore.setConnection(false, "Niet verbonden")
+        AppStateStore.setError(message)
+        completeConnect(false, message)
+    }
+
+    private fun openSpotifyApp(activity: Activity): Boolean {
+        val launchIntent = activity.packageManager
+            .getLaunchIntentForPackage(BuildConfig.SPOTIFY_APP_PACKAGE)
+            ?.apply {
+                addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT)
+            }
+            ?: return false
+
+        return try {
+            activity.startActivity(launchIntent)
+            true
+        } catch (exception: ActivityNotFoundException) {
+            Log.e(TAG, "Spotify-app kon niet worden geopend", exception)
+            false
+        } catch (exception: SecurityException) {
+            Log.e(TAG, "Geen toestemming om Spotify-app te openen", exception)
+            false
+        }
     }
 
     private fun mapConnectionError(activity: Activity, throwable: Throwable): String {

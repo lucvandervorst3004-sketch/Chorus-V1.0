@@ -70,6 +70,13 @@ class SettingsActivity : AppCompatActivity() {
         observeState()
     }
 
+    override fun onStart() {
+        super.onStart()
+        if (!SpotifyManager.resumePendingConnectionAfterSpotifyReturn(this)) {
+            SpotifyManager.refreshPlayerState()
+        }
+    }
+
     private fun applyInsets() {
         val initialLeft = binding.contentSettings.paddingLeft
         val initialTop = binding.contentSettings.paddingTop
